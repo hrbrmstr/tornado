@@ -23,6 +23,22 @@ tibble(
   trend = scan(here::here("data/trends.txt"))
 ) -> tornado
 
+tornado
+## # A tibble: 30,000 x 3
+##      lat   lon trend
+##    <dbl> <dbl> <dbl>
+##  1 0.897 -180.     0
+##  2 0.897 -179.     0
+##  3 0.897 -178.     0
+##  4 0.897 -176.     0
+##  5 0.897 -175.     0
+##  6 0.897 -174.     0
+##  7 0.897 -173.     0
+##  8 0.897 -172.     0
+##  9 0.897 -170.     0
+## 10 0.897 -169.     0
+## # … with 29,990 more rows
+
 summary(tornado)
 ##       lat               lon                 trend           
 ##  Min.   : 0.8973   Min.   :-179.99808   Min.   :-0.4733610  
@@ -66,7 +82,7 @@ ylim <- range(state_map$lat)
 filter(
   tornado,
   between(lon, -107, xlim[2]), between(lat, ylim[1], ylim[2]), # -107 gets us ~left-edge of TX
-  ((trend < -0.07) | (trend > 0.07)) #
+  ((trend < -0.07) | (trend > 0.07)) # approximates notebook selection range
 ) -> tornado
 ```
 

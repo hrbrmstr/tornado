@@ -23,6 +23,8 @@ tibble(
   trend = scan(here::here("data/trends.txt"))
 ) -> tornado
 
+tornado
+
 summary(tornado)
 
 #' Grid overview
