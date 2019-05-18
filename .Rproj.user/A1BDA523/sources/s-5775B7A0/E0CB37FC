@@ -1,0 +1,25 @@
+{
+    "id": "E0CB37FC",
+    "path": "~/projects/tornado/tornado.R",
+    "project_path": "tornado.R",
+    "type": "r_source",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1558189198472.0,
+    "source_on_save": false,
+    "relative_order": 1,
+    "properties": {
+        "tempName": "Untitled1",
+        "cursorPosition": "128,47",
+        "scrollLine": "84"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1558192299,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1558192299400,
+    "read_only": false,
+    "read_only_alternatives": []
+}
