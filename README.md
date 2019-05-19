@@ -1,44 +1,67 @@
-#' ---
-#' title: "Tornado Project"
-#' author: ""
-#' date: ""
-#' output:
-#'   html_document:
-#'     keep_md: true
-#'     theme: simplex
-#'     highlight: monochrome
-#' ---
-#+ init, include=FALSE
-knitr::opts_chunk$set(message = FALSE, warning = FALSE, dev="png", collapse=TRUE,
-                      fig.retina = 2, fig.width = 10, fig.height = 6)
+tornado
+================
 
-#+ libs
+``` r
+library(here)
 library(hrbrthemes) # not 100% necessary
 library(tidyverse)  # data wrangling & ggplot2
+```
 
-#+ data
+``` r
 tibble(
-  lat = scan(here::here("data/lats.txt")),
-  lon = scan(here::here("data/lons.txt")),
-  trend = scan(here::here("data/trends.txt"))
+  lat = scan(here("data/lats.txt")),
+  lon = scan(here("data/lons.txt")),
+  trend = scan(here("data/trends.txt"))
 ) -> tornado
+```
 
+``` r
 tornado
+## # A tibble: 30,000 x 3
+##      lat   lon trend
+##    <dbl> <dbl> <dbl>
+##  1 0.897 -180.     0
+##  2 0.897 -179.     0
+##  3 0.897 -178.     0
+##  4 0.897 -176.     0
+##  5 0.897 -175.     0
+##  6 0.897 -174.     0
+##  7 0.897 -173.     0
+##  8 0.897 -172.     0
+##  9 0.897 -170.     0
+## 10 0.897 -169.     0
+## # … with 29,990 more rows
 
 summary(tornado)
+##       lat               lon                 trend           
+##  Min.   : 0.8973   Min.   :-179.99808   Min.   :-0.4733610  
+##  1st Qu.:22.0063   1st Qu.: -90.00066   1st Qu.: 0.0000000  
+##  Median :43.1154   Median :  -0.00323   Median : 0.0000000  
+##  Mean   :43.1154   Mean   :  -0.00323   Mean   : 0.0002756  
+##  3rd Qu.:64.2245   3rd Qu.:  89.99419   3rd Qu.: 0.0000000  
+##  Max.   :85.3335   Max.   : 179.99161   Max.   : 0.6314569
+```
 
-#' Grid overview
+### Grid overview
 
-#+ grid-overview
+``` r
 ggplot(tornado, aes(lon, lat)) +
   geom_point(aes(color = trend))
+```
 
-#' Trend overview
+<img src="README_files/figure-gfm/grid-overview-1.png" width="672" />
 
-#+ trend-overview
+### Trend overview
+
+``` r
 ggplot(tornado, aes(trend)) +
   geom_histogram() +
   scale_x_continuous(breaks = seq(-0.5, 0.5, 0.05))
+```
+
+<img src="README_files/figure-gfm/trend-overview-1.png" width="672" />
+
+``` r
 
 maps::map("state", ".", exact = FALSE, plot = FALSE, fill = TRUE) %>%
   fortify(map_obj) %>%
@@ -50,22 +73,31 @@ ylim <- range(state_map$lat)
 filter(
   tornado,
   between(lon, -107, xlim[2]), between(lat, ylim[1], ylim[2]), # -107 gets us ~left-edge of TX
-  ((trend < -0.07) | (trend > 0.07)) # approximates notebook selection range
+  ((trend < -0.07) | (trend > 0.07)) # approximates observable notebook selection range
 ) -> tornado
+```
 
-#' Grid overview #2
+### Grid overview \#2
 
-#+ grid-overview-2
+``` r
 ggplot(tornado, aes(lon, lat)) +
   geom_point(aes(color = trend))
+```
 
-#' Grid overview #2
+<img src="README_files/figure-gfm/grid-overview-2-1.png" width="672" />
 
-#+ grid-overview-3
+### Grid overview \#3
+
+``` r
 ggplot(tornado, aes(lon, lat)) +
   geom_tile(aes(fill = trend, color = trend))
+```
 
-#+ map-1
+<img src="README_files/figure-gfm/grid-overview-3-1.png" width="672" />
+
+### Map
+
+``` r
 ggplot() +
   geom_tile(
     data = tornado,
@@ -76,9 +108,13 @@ ggplot() +
     aes(long, lat, map_id = region),
     color = "black", size = 0.125, fill = NA
   )
+```
 
+<img src="README_files/figure-gfm/map-1.png" width="672" />
 
-#+ map-final
+### Map (final)
+
+``` r
 c(
   "#023858", "#045a8d", "#0570b0", "#3690c0", "#74a9cf",
   "#a6bddb", "#d0d1e6", "#ece7f2", "#fff7fb", "#ffffff",
@@ -129,3 +165,6 @@ ggplot() +
   theme(legend.title = element_text(size = 16, hjust = 0.5)) +
   theme(legend.key.width = unit(4, "lines")) +
   theme(legend.key.height = unit(0.5, "lines"))
+```
+
+<img src="README_files/figure-gfm/map-final-1.png" width="672" />
